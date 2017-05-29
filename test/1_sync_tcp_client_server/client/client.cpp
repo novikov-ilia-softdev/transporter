@@ -1,7 +1,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 
-// g++ -o client client.cpp -lboost_system
+// g++ -o client.out client.cpp -lboost_system
 
 int main()
 {

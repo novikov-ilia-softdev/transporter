@@ -2,7 +2,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
-// g++ -o server server.cpp -lboost_system -lboost_thread
+// g++ -o server.out server.cpp -lboost_system -lboost_thread
 
 typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 void client_session( socket_ptr sock);
