@@ -6,31 +6,30 @@
 #include <boost/bind.hpp>
 #include "../message/chatmessage.hpp"
 
-
 class ChatClient
 {
-typedef std::deque<chat_message> chat_message_queue;
+typedef std::deque<chatMessage> chatMessageQueue;
 
 public:
-	ChatClient( boost::asio::io_service& io_service,
-			    boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
+	ChatClient( boost::asio::io_service& ioService,
+			    boost::asio::ip::tcp::resolver::iterator endpointIterator);
 
-	void write(const chat_message& msg);
+	void write( const chatMessage& msg);
 	void close();
 
 private:
-	void handle_connect( const boost::system::error_code& error);
-	void handle_read_header( const boost::system::error_code& error);
-	void handle_read_body( const boost::system::error_code& error);
-	void do_write( chat_message msg);
-	void handle_write( const boost::system::error_code& error);
-	void do_close();
+	void handleConnect_( const boost::system::error_code& error);
+	void handleReadHeader_( const boost::system::error_code& error);
+	void handleReadBody_( const boost::system::error_code& error);
+	void doWrite_( chatMessage msg);
+	void handleWrite_( const boost::system::error_code& error);
+	void doClose_();
 
 private:
-	boost::asio::io_service& io_service_;
+	boost::asio::io_service& ioService_;
 	boost::asio::ip::tcp::socket socket_;
-	chat_message read_msg_;
-	chat_message_queue write_msgs_;
+	chatMessage readMsg_;
+	chatMessageQueue writeMsgs_;
 };
 
 #endif // CHATCLIENT_H

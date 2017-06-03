@@ -1,6 +1,5 @@
 // g++ -o client.out main.cpp chatclient.cpp -lboost_system -lboost_thread -lpthread
 
-
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
@@ -27,10 +26,10 @@ int main( int argc, char* argv[])
 
 		boost::thread t( boost::bind( &boost::asio::io_service::run, &io_service));
 
-		char line[ chat_message::max_body_length + 1];
-		while ( std::cin.getline( line, chat_message::max_body_length + 1))
+		char line[ chatMessage::max_body_length + 1];
+		while ( std::cin.getline( line, chatMessage::max_body_length + 1))
 		{
-			chat_message msg;
+			chatMessage msg;
 			msg.body_length( strlen(line));
 			memcpy(msg.body(), line, msg.body_length());
 			msg.encode_header();
