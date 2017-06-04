@@ -1,9 +1,9 @@
-// g++ -o client.out main.cpp chatclient.cpp -lboost_system -lboost_thread -lpthread
+// g++ -o client.out main.cpp chatclient.cpp ../message/chatmessage.cpp -lboost_system -lboost_thread -lpthread
 
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
-#include "../message/chatmessage.hpp"
+#include "../message/chatmessage.h"
 #include "chatclient.h"
 
 int main( int argc, char* argv[])
@@ -12,7 +12,7 @@ int main( int argc, char* argv[])
 	{
 		if ( argc != 3)
 		{
-			std::cerr << "Usage: ChatClient <host> <port>\n";
+			std::cerr << "Usage: client <host> <port>\n";
 			return 1;
 		}
 
@@ -22,22 +22,22 @@ int main( int argc, char* argv[])
 		boost::asio::ip::tcp::resolver::query query( argv[1], argv[2]);
 		boost::asio::ip::tcp::resolver::iterator iterator = resolver.resolve( query);
 
-		ChatClient c( io_service, iterator);
+		ChatClient client( io_service, iterator);
 
-		boost::thread t( boost::bind( &boost::asio::io_service::run, &io_service));
+		boost::thread thread( boost::bind( &boost::asio::io_service::run, &io_service));
 
-		char line[ chatMessage::max_body_length + 1];
-		while ( std::cin.getline( line, chatMessage::max_body_length + 1))
+		char line[ chatMessage::maxBodyLength + 1];
+		while ( std::cin.getline( line, chatMessage::maxBodyLength + 1))
 		{
 			chatMessage msg;
-			msg.body_length( strlen(line));
-			memcpy(msg.body(), line, msg.body_length());
-			msg.encode_header();
-			c.write( msg);
+			msg.setBodyLength( strlen( line));
+			memcpy( msg.getBody(), line, msg.getBodyLength());
+			msg.encodeHeader();
+			client.write( msg);
 		}
 
-		c.close();
-		t.join();
+		client.close();
+		thread.join();
 
 	}
 	catch ( std::exception& e)
