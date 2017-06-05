@@ -1,50 +1,51 @@
+#include "message.h"
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "chatmessage.h"
 
-chatMessage::chatMessage(): bodyLength_( 0)
+Message::Message(): bodyLength_( 0)
 {
 }
 
-const char* chatMessage::getData() const
-{
-	return data_;
-}
-
-char* chatMessage::getData()
+const char* Message::getData() const
 {
 	return data_;
 }
 
-size_t chatMessage::getLength() const
+char* Message::getData()
+{
+	return data_;
+}
+
+size_t Message::getLength() const
 {
 	return headerLength + bodyLength_;
 }
 
-const char* chatMessage::getBody() const
+const char* Message::getBody() const
 {
 	return data_ + headerLength;
 }
 
-char* chatMessage::getBody()
+char* Message::getBody()
 {
 	return data_ + headerLength;
 }
 
-size_t chatMessage::getBodyLength() const
+size_t Message::getBodyLength() const
 {
 	return bodyLength_;
 }
 
-void chatMessage::setBodyLength(size_t newLength)
+void Message::setBodyLength(size_t newLength)
 {
 	bodyLength_ = newLength;
 	if (bodyLength_ > maxBodyLength)
 		bodyLength_ = maxBodyLength;
 }
 
-bool chatMessage::decodeHeader()
+bool Message::decodeHeader()
 {
 	char header[ headerLength + 1] = "";
 	strncat( header, data_, headerLength);
@@ -57,7 +58,7 @@ bool chatMessage::decodeHeader()
 	return true;
 }
 
-void chatMessage::encodeHeader()
+void Message::encodeHeader()
 {
 	char header[ headerLength + 1] = "";
 	sprintf( header, "%4d", static_cast<int>( bodyLength_));

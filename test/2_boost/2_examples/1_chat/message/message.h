@@ -1,27 +1,31 @@
 #ifndef CHATMESSAGE_H
 #define CHATMESSAGE_H
 
-class chatMessage
+#include <deque>
+
+class Message
 {
 public:
   enum { headerLength = 4 };
   enum { maxBodyLength = 512 };
 
-  chatMessage();
+  Message();
 
   const char* getData() const;
   char* getData();
-  size_t getLength() const;
+  std::size_t getLength() const;
   const char* getBody() const;
   char* getBody();
-  size_t getBodyLength() const;
-  void setBodyLength( size_t new_length);
+  std::size_t getBodyLength() const;
+  void setBodyLength( std::size_t new_length);
   bool decodeHeader();
   void encodeHeader();
 
 private:
   char data_[ headerLength + maxBodyLength];
-  size_t bodyLength_;
+  std::size_t bodyLength_;
 };
+
+typedef std::deque<Message> MessageQueue;
 
 #endif // CHATMESSAGE_H

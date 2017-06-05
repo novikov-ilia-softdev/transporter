@@ -3,7 +3,8 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
-#include "../message/chatmessage.h"
+
+#include "../message/message.h"
 #include "chatclient.h"
 
 int main( int argc, char* argv[])

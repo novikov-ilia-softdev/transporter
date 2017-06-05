@@ -4,7 +4,8 @@
 #include <deque>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
-#include "../message/chatmessage.h"
+
+#include "../message/message.h"
 
 class ChatClient
 {
