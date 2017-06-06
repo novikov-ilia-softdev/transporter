@@ -11,7 +11,7 @@ class Room
 public:
 	void join( IParticipantPtr participant);
 	void leave( IParticipantPtr participant);
-	void deliver( const Message& msg);
+	void deliver( const Message& msg, IParticipantPtr notThisParticipant);
 
 private:
 	std::set<IParticipantPtr> participants_;

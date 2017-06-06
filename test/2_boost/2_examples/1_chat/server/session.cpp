@@ -56,7 +56,7 @@ void Session::handleReadBody_( const boost::system::error_code& error)
 {
 	if (!error)
 	{
-		room_.deliver( readMsg_);
+		room_.deliver( readMsg_, shared_from_this());
 		boost::asio::async_read( socket_,
 								 boost::asio::buffer(readMsg_.getData(),
 								 Message::headerLength),
@@ -70,7 +70,7 @@ void Session::handleReadBody_( const boost::system::error_code& error)
 	}
 }
 
-void Session::handleWrite_(const boost::system::error_code& error)
+void Session::handleWrite_( const boost::system::error_code& error)
 {
 	if (!error)
 	{
