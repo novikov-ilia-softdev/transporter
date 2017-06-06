@@ -1,6 +1,7 @@
 // g++ -o server.out main.cpp server.cpp session.cpp room.cpp ../message/message.cpp -lboost_system
 
 #include <boost/asio.hpp>
+#include <iostream>
 #include "server.h"
 
 int main( int argc, char* argv[])
