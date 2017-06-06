@@ -7,30 +7,30 @@
 
 #include "../message/message.h"
 
-class ChatClient
+class Client
 {
-typedef std::deque<chatMessage> chatMessageQueue;
+typedef std::deque<Message> chatMessageQueue;
 
 public:
-	ChatClient( boost::asio::io_service& ioService,
+	Client( boost::asio::io_service& ioService,
 			    boost::asio::ip::tcp::resolver::iterator endpointIterator);
 
-	void write( const chatMessage& msg);
+	void write( const Message& msg);
 	void close();
 
 private:
 	void handleConnect_( const boost::system::error_code& error);
 	void handleReadHeader_( const boost::system::error_code& error);
 	void handleReadBody_( const boost::system::error_code& error);
-	void doWrite_( chatMessage msg);
+	void doWrite_( Message msg);
 	void handleWrite_( const boost::system::error_code& error);
 	void doClose_();
 
 private:
 	boost::asio::io_service& ioService_;
 	boost::asio::ip::tcp::socket socket_;
-	chatMessage readMsg_;
-	chatMessageQueue writeMsgs_;
+	Message readMsg_;
+	MessageQueue writeMsgs_;
 };
 
 #endif // CHATCLIENT_H
