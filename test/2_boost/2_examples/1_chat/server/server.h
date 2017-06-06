@@ -8,8 +8,10 @@ class Server
 {
 public:
 	Server( boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint);
-	void startAccept();
-	void handleAccept( SessionPtr session, const boost::system::error_code& error);
+
+private:
+	void startAccept_();
+	void handleAccept_( SessionPtr session, const boost::system::error_code& error);
 
 private:
 	boost::asio::io_service& ioService_;

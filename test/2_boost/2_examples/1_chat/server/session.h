@@ -13,9 +13,11 @@ public:
 	boost::asio::ip::tcp::socket& socket();
 	void start();
 	void deliver( const Message& msg);
-	void handleReadHeader( const boost::system::error_code& error);
-	void handleReadBody( const boost::system::error_code& error);
-	void handleWrite(const boost::system::error_code& error);
+
+private:
+	void handleReadHeader_( const boost::system::error_code& error);
+	void handleReadBody_( const boost::system::error_code& error);
+	void handleWrite_( const boost::system::error_code& error);
 
 private:
 	boost::asio::ip::tcp::socket socket_;

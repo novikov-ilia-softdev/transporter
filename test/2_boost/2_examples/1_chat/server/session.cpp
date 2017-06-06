@@ -15,7 +15,7 @@ void Session::start()
 	room_.join(shared_from_this());
 	boost::asio::async_read( socket_,
 							 boost::asio::buffer( readMsg_.getData(), Message::headerLength),
-							 boost::bind( &Session::handleReadHeader,
+							 boost::bind( &Session::handleReadHeader_,
 										  shared_from_this(),
 										  boost::asio::placeholders::error));
 }
@@ -29,20 +29,20 @@ void Session::deliver( const Message& msg)
 		boost::asio::async_write( socket_,
 								  boost::asio::buffer(writeMsgs_.front().getData(),
 								  writeMsgs_.front().getLength()),
-								  boost::bind( &Session::handleWrite,
+								  boost::bind( &Session::handleWrite_,
 											   shared_from_this(),
 											   boost::asio::placeholders::error));
 	}
 }
 
-void Session::handleReadHeader( const boost::system::error_code& error)
+void Session::handleReadHeader_( const boost::system::error_code& error)
 {
 	if (!error && readMsg_.decodeHeader())
 	{
 		boost::asio::async_read( socket_,
 								 boost::asio::buffer(readMsg_.getBody(),
 								 readMsg_.getBodyLength()),
-								 boost::bind( &Session::handleReadBody,
+								 boost::bind( &Session::handleReadBody_,
 											  shared_from_this(),
 											  boost::asio::placeholders::error));
 	}
@@ -52,7 +52,7 @@ void Session::handleReadHeader( const boost::system::error_code& error)
 	}
 }
 
-void Session::handleReadBody( const boost::system::error_code& error)
+void Session::handleReadBody_( const boost::system::error_code& error)
 {
 	if (!error)
 	{
@@ -60,7 +60,7 @@ void Session::handleReadBody( const boost::system::error_code& error)
 		boost::asio::async_read( socket_,
 								 boost::asio::buffer(readMsg_.getData(),
 								 Message::headerLength),
-								 boost::bind( &Session::handleReadHeader,
+								 boost::bind( &Session::handleReadHeader_,
 											  shared_from_this(),
 											  boost::asio::placeholders::error));
 	}
@@ -70,7 +70,7 @@ void Session::handleReadBody( const boost::system::error_code& error)
 	}
 }
 
-void Session::handleWrite(const boost::system::error_code& error)
+void Session::handleWrite_(const boost::system::error_code& error)
 {
 	if (!error)
 	{
@@ -80,7 +80,7 @@ void Session::handleWrite(const boost::system::error_code& error)
 			boost::asio::async_write( socket_,
 									  boost::asio::buffer( writeMsgs_.front().getData(),
 									  writeMsgs_.front().getLength()),
-									  boost::bind( &Session::handleWrite, shared_from_this(),
+									  boost::bind( &Session::handleWrite_, shared_from_this(),
 												   boost::asio::placeholders::error));
 		}
 	}
