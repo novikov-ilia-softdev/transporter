@@ -11,12 +11,25 @@ Client::Client( boost::asio::io_service& ioService,
 
 void Client::write( const Message& msg)
 {
-	ioService_.post( boost::bind( &Client::doWrite_, this, msg));
+	ioService_.post(
+			[this, msg]()
+				{
+					bool writeInProgress = !writeMsgs_.empty();
+					writeMsgs_.push_back(msg);
+					if ( !writeInProgress)
+					{
+						write_();
+					}
+				});
 }
 
 void Client::close()
 {
-	ioService_.post( boost::bind( &Client::doClose_, this));
+	ioService_.post(
+			[this]()
+			{
+				socket_.close();
+			});
 }
 
 void Client::connect_( boost::asio::ip::tcp::resolver::iterator endpointIterator)
@@ -68,39 +81,24 @@ void Client::readBody_()
 							 });
 }
 
-void Client::doWrite_( Message msg)
+void Client::write_()
 {
-	bool writeInProgress = !writeMsgs_.empty();
-	writeMsgs_.push_back(msg);
-	if ( !writeInProgress)
-	{
 		boost::asio::async_write( socket_,
 								  boost::asio::buffer( writeMsgs_.front().getData(),
 								  writeMsgs_.front().getLength()),
-								  boost::bind( &Client::handleWrite_, this, boost::asio::placeholders::error));
-	}
-}
-
-void Client::handleWrite_( const boost::system::error_code& error)
-{
-	if (!error)
-	{
-		writeMsgs_.pop_front();
-		if ( !writeMsgs_.empty())
-		{
-			boost::asio::async_write( socket_,
-									  boost::asio::buffer(writeMsgs_.front().getData(),
-									  writeMsgs_.front().getLength()),
-									  boost::bind( &Client::handleWrite_, this, boost::asio::placeholders::error));
-		}
-	}
-	else
-	{
-		doClose_();
-	}
-}
-
-void Client::doClose_()
-{
-	socket_.close();
+								  [this](boost::system::error_code ec, std::size_t length)
+									{
+										if (!ec)
+										{
+											writeMsgs_.pop_front();
+											if ( !writeMsgs_.empty())
+											{
+												write_();
+											}
+										}
+										else
+										{
+											socket_.close();
+										}
+									});
 }

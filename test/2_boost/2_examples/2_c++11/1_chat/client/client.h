@@ -22,9 +22,7 @@ private:
 	void connect_( boost::asio::ip::tcp::resolver::iterator endpointIterator);
 	void readHeader_();
 	void readBody_();
-	void doWrite_( Message msg);
-	void handleWrite_( const boost::system::error_code& error);
-	void doClose_();
+	void write_();
 
 private:
 	boost::asio::io_service& ioService_;
