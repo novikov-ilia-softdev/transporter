@@ -1,27 +1,22 @@
 #include "server.h"
+#include "session.h"
 
-Server::Server( boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint)
-	: ioService_( io_service), acceptor_( io_service, endpoint)
+Server::Server( boost::asio::io_service& ioService, const boost::asio::ip::tcp::endpoint& endpoint)
+	: acceptor_( ioService, endpoint), socket_( ioService)
 {
-	startAccept_();
+	accept_();
 }
 
-void Server::startAccept_()
+void Server::accept_()
 {
-	SessionPtr new_session( new Session( ioService_, room_));
-	acceptor_.async_accept( new_session->socket(),
-							boost::bind( &Server::handleAccept_,
-										 this,
-										 new_session,
-										 boost::asio::placeholders::error));
-}
+	acceptor_.async_accept( socket_,
+							[this](boost::system::error_code ec)
+							{
+								  if( !ec)
+								  {
+									  std::make_shared<Session>( std::move( socket_), room_)->start();
+								  }
 
-void Server::handleAccept_( SessionPtr session, const boost::system::error_code& error)
-{
-	if (!error)
-	{
-		session->start();
-	}
-
-	startAccept_();
+								  accept_();
+							});
 }

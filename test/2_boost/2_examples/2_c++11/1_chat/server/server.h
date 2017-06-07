@@ -1,21 +1,21 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <boost/asio.hpp>
 #include <list>
-#include "session.h"
+#include "room.h"
 
 class Server
 {
 public:
-	Server( boost::asio::io_service& io_service, const boost::asio::ip::tcp::endpoint& endpoint);
+	Server( boost::asio::io_service& ioService, const boost::asio::ip::tcp::endpoint& endpoint);
 
 private:
-	void startAccept_();
-	void handleAccept_( SessionPtr session, const boost::system::error_code& error);
+	void accept_();
 
 private:
-	boost::asio::io_service& ioService_;
 	boost::asio::ip::tcp::acceptor acceptor_;
+	boost::asio::ip::tcp::socket socket_;
 	Room room_;
 };
 
