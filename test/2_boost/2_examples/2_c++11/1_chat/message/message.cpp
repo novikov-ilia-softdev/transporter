@@ -48,8 +48,8 @@ void Message::setBodyLength(size_t newLength)
 bool Message::decodeHeader()
 {
 	char header[ headerLength + 1] = "";
-	strncat( header, data_, headerLength);
-	bodyLength_ = atoi( header);
+	std::strncat( header, data_, headerLength);
+	bodyLength_ = std::atoi( header);
 	if( bodyLength_ > maxBodyLength)
 	{
 		bodyLength_ = 0;
@@ -61,6 +61,6 @@ bool Message::decodeHeader()
 void Message::encodeHeader()
 {
 	char header[ headerLength + 1] = "";
-	sprintf( header, "%4d", static_cast<int>( bodyLength_));
-	memcpy( data_, header, headerLength);
+	std::sprintf( header, "%4d", static_cast<int>( bodyLength_));
+	std::memcpy( data_, header, headerLength);
 }

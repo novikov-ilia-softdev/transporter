@@ -2,13 +2,11 @@
 #include "client.h"
 
 Client::Client( boost::asio::io_service& ioService,
-						boost::asio::ip::tcp::resolver::iterator endpointIterator)
+				boost::asio::ip::tcp::resolver::iterator endpointIterator)
 				: ioService_( ioService),
 				  socket_( ioService)
 {
-	boost::asio::async_connect( socket_,
-								endpointIterator,
-								boost::bind( &Client::handleConnect_, this, boost::asio::placeholders::error));
+	connect_( endpointIterator);
 }
 
 void Client::write( const Message& msg)
@@ -21,44 +19,53 @@ void Client::close()
 	ioService_.post( boost::bind( &Client::doClose_, this));
 }
 
-void Client::handleConnect_( const boost::system::error_code& error)
+void Client::connect_( boost::asio::ip::tcp::resolver::iterator endpointIterator)
 {
-	if (!error)
-	{
-		boost::asio::async_read( socket_,
-								 boost::asio::buffer( readMsg_.getData(), Message::headerLength),
-								 boost::bind( &Client::handleReadHeader_, this, boost::asio::placeholders::error));
-	}
+	boost::asio::async_connect( socket_,
+								endpointIterator,
+								[ this]( boost::system::error_code ec, boost::asio::ip::tcp::resolver::iterator endpointIterator)
+								{
+									if ( !ec)
+									{
+										readHeader_();
+									}
+								});
 }
 
-void Client::handleReadHeader_( const boost::system::error_code& error)
+void Client::readHeader_()
 {
-	if ( !error && readMsg_.decodeHeader())
-	{
-		boost::asio::async_read( socket_,
-								 boost::asio::buffer( readMsg_.getBody(), readMsg_.getBodyLength()),
-								 boost::bind( &Client::handleReadBody_, this, boost::asio::placeholders::error));
-	}
-	else
-	{
-		doClose_();
-	}
+	boost::asio::async_read( socket_,
+							 boost::asio::buffer( readMsg_.getData(), Message::headerLength),
+							 [ this]( boost::system::error_code ec, std::size_t length)
+							 {
+							   if( !ec && readMsg_.decodeHeader())
+							   {
+								   readBody_();
+							   }
+							   else
+							   {
+								 socket_.close();
+							   }
+							 });
 }
 
-void Client::handleReadBody_( const boost::system::error_code& error)
+void Client::readBody_()
 {
-	if ( !error)
-	{
-		std::cout.write( readMsg_.getBody(), readMsg_.getBodyLength());
-		std::cout << "\n";
-		boost::asio::async_read( socket_,
-								 boost::asio::buffer(readMsg_.getData(), Message::headerLength),
-								 boost::bind( &Client::handleReadHeader_, this, boost::asio::placeholders::error));
-	}
-	else
-	{
-		doClose_();
-	}
+	boost::asio::async_read( socket_,
+							 boost::asio::buffer( readMsg_.getBody(), readMsg_.getBodyLength()),
+							 [this](boost::system::error_code ec, std::size_t length)
+							 {
+								if (!ec)
+								{
+									std::cout.write( readMsg_.getBody(), readMsg_.getBodyLength());
+									std::cout << "\n";
+									readHeader_();
+								}
+								else
+								{
+									socket_.close();
+								}
+							 });
 }
 
 void Client::doWrite_( Message msg)

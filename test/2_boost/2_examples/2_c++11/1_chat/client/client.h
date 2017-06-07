@@ -13,15 +13,15 @@ typedef std::deque<Message> chatMessageQueue;
 
 public:
 	Client( boost::asio::io_service& ioService,
-			    boost::asio::ip::tcp::resolver::iterator endpointIterator);
+			boost::asio::ip::tcp::resolver::iterator endpointIterator);
 
 	void write( const Message& msg);
 	void close();
 
 private:
-	void handleConnect_( const boost::system::error_code& error);
-	void handleReadHeader_( const boost::system::error_code& error);
-	void handleReadBody_( const boost::system::error_code& error);
+	void connect_( boost::asio::ip::tcp::resolver::iterator endpointIterator);
+	void readHeader_();
+	void readBody_();
 	void doWrite_( Message msg);
 	void handleWrite_( const boost::system::error_code& error);
 	void doClose_();
