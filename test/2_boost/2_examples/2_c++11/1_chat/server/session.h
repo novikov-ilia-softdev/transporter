@@ -1,12 +1,11 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include "iparticipant.h"
 #include "room.h"
 
-class Session : public IParticipant, public boost::enable_shared_from_this<Session>
+class Session : public IParticipant, public std::enable_shared_from_this<Session>
 {
 public:
 	Session( boost::asio::ip::tcp::socket socket, Room& room);
@@ -15,9 +14,9 @@ public:
 	void deliver( const Message& msg);
 
 private:
-	void handleReadHeader_( const boost::system::error_code& error);
-	void handleReadBody_( const boost::system::error_code& error);
-	void handleWrite_( const boost::system::error_code& error);
+	void readHeader_();
+	void readBody_();
+	void write_();
 
 private:
 	boost::asio::ip::tcp::socket socket_;
@@ -26,6 +25,6 @@ private:
 	MessageQueue writeMsgs_;
 };
 
-typedef boost::shared_ptr<Session> SessionPtr;
+typedef std::shared_ptr<Session> SessionPtr;
 
 #endif // SESSION_H

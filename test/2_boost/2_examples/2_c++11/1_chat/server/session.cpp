@@ -12,12 +12,8 @@ boost::asio::ip::tcp::socket& Session::socket()
 
 void Session::start()
 {
-	room_.join(shared_from_this());
-	boost::asio::async_read( socket_,
-							 boost::asio::buffer( readMsg_.getData(), Message::headerLength),
-							 boost::bind( &Session::handleReadHeader_,
-										  shared_from_this(),
-										  boost::asio::placeholders::error));
+	room_.join( shared_from_this());
+	readHeader_();
 }
 
 void Session::deliver( const Message& msg)
@@ -26,66 +22,68 @@ void Session::deliver( const Message& msg)
 	writeMsgs_.push_back(msg);
 	if ( !writeInProgress)
 	{
-		boost::asio::async_write( socket_,
-								  boost::asio::buffer(writeMsgs_.front().getData(),
-								  writeMsgs_.front().getLength()),
-								  boost::bind( &Session::handleWrite_,
-											   shared_from_this(),
-											   boost::asio::placeholders::error));
+		write_();
 	}
 }
 
-void Session::handleReadHeader_( const boost::system::error_code& error)
+void Session::readHeader_()
 {
-	if (!error && readMsg_.decodeHeader())
-	{
-		boost::asio::async_read( socket_,
-								 boost::asio::buffer(readMsg_.getBody(),
-								 readMsg_.getBodyLength()),
-								 boost::bind( &Session::handleReadBody_,
-											  shared_from_this(),
-											  boost::asio::placeholders::error));
-	}
-	else
-	{
-		room_.leave( shared_from_this());
-	}
+	auto self( shared_from_this());
+	boost::asio::async_read( socket_,
+							 boost::asio::buffer(readMsg_.getData(),
+							 Message::headerLength),
+							 [this, self](boost::system::error_code ec, std::size_t length)
+							 {
+								 if ( !ec && readMsg_.decodeHeader())
+								 {
+									 readBody_();
+								 }
+								 else
+								 {
+									 room_.leave( shared_from_this());
+								 }
+							 });
 }
 
-void Session::handleReadBody_( const boost::system::error_code& error)
+void Session::readBody_()
 {
-	if (!error)
-	{
-		room_.deliver( readMsg_, shared_from_this());
-		boost::asio::async_read( socket_,
-								 boost::asio::buffer(readMsg_.getData(),
-								 Message::headerLength),
-								 boost::bind( &Session::handleReadHeader_,
-											  shared_from_this(),
-											  boost::asio::placeholders::error));
-	}
-	else
-	{
-		room_.leave( shared_from_this());
-	}
+	auto self( shared_from_this());
+	boost::asio::async_read( socket_,
+							 boost::asio::buffer(readMsg_.getBody(),
+							 readMsg_.getBodyLength()),
+							 [this, self](boost::system::error_code ec, std::size_t length)
+							 {
+								 if (!ec)
+								 {
+									 room_.deliver( readMsg_, shared_from_this());
+									 readHeader_();
+								 }
+								 else
+								 {
+									 room_.leave(shared_from_this());
+								 }
+							 });
 }
 
-void Session::handleWrite_( const boost::system::error_code& error)
+void Session::write_()
 {
-	if (!error)
-	{
-		writeMsgs_.pop_front();
-		if ( !writeMsgs_.empty())
-		{
-			boost::asio::async_write( socket_,
-									  boost::asio::buffer( writeMsgs_.front().getData(),
-									  writeMsgs_.front().getLength()),
-									  boost::bind( &Session::handleWrite_, shared_from_this(),
-												   boost::asio::placeholders::error));
-		}
-	}
-	else
-	{
-		room_.leave( shared_from_this());
-	}
+	auto self( shared_from_this());
+	boost::asio::async_write( socket_,
+							  boost::asio::buffer( writeMsgs_.front().getData(),
+							  writeMsgs_.front().getLength()),
+							  [this, self]( boost::system::error_code ec, std::size_t length)
+								{
+									if (!ec)
+									{
+										writeMsgs_.pop_front();
+										if (!writeMsgs_.empty())
+										{
+											write_();
+										}
+									}
+									else
+									{
+										room_.leave( shared_from_this());
+									}
+								});
 }

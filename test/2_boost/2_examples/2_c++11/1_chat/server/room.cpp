@@ -3,11 +3,8 @@
 void Room::join( IParticipantPtr participant)
 {
 	participants_.insert( participant);
-	std::for_each( recentMsgs_.begin(),
-				   recentMsgs_.end(),
-				   boost::bind( &IParticipant::deliver,
-								participant,
-								_1));
+	for( auto msg: recentMsgs_)
+		participant->deliver( msg);
 }
 
 void Room::leave( IParticipantPtr participant)
@@ -21,19 +18,9 @@ void Room::deliver( const Message& msg, IParticipantPtr notThisParticipant)
 	while( recentMsgs_.size() > maxRecentMsgs_)
 		recentMsgs_.pop_front();
 
-	for( std::set<IParticipantPtr>::iterator it = participants_.begin(); it != participants_.end(); ++it)
+	for( auto participant: participants_)
 	{
-		if( *it != notThisParticipant)
-		{
-			(*it)->deliver( msg);
-		}
+		if( participant != notThisParticipant)
+			participant->deliver( msg);
 	}
-
-	/*
-	std::for_each( participants_.begin(),
-				   participants_.end(),
-				   boost::bind( &IParticipant::deliver,
-								_1,
-								boost::ref( msg)));
-	*/
 }

@@ -1,8 +1,8 @@
 #ifndef IPARTICIPANT_H
 #define IPARTICIPANT_H
 
-#include <boost/shared_ptr.hpp>
 #include "../message/message.h"
+#include <memory>
 
 class IParticipant
 {
@@ -11,6 +11,6 @@ public:
 	virtual void deliver(const Message& msg) = 0;
 };
 
-typedef boost::shared_ptr<IParticipant> IParticipantPtr;
+typedef std::shared_ptr<IParticipant> IParticipantPtr;
 
 #endif // IPARTICIPANT_H

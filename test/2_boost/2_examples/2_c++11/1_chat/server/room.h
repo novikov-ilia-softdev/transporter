@@ -2,7 +2,6 @@
 #define ROOM_H
 
 #include <set>
-#include <boost/bind.hpp>
 #include "../message/message.h"
 #include "iparticipant.h"
 
