@@ -1,7 +1,7 @@
 #include "session.h"
 
-Session::Session( boost::asio::io_service& ioService, Room& room)
-	: socket_(ioService), room_(room)
+Session::Session( boost::asio::ip::tcp::socket socket, Room& room)
+	: socket_( std::move( socket)), room_(room)
 {
 }
 

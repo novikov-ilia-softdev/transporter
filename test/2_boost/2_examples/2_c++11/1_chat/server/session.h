@@ -9,7 +9,7 @@
 class Session : public IParticipant, public boost::enable_shared_from_this<Session>
 {
 public:
-	Session( boost::asio::io_service& ioService, Room& room);
+	Session( boost::asio::ip::tcp::socket socket, Room& room);
 	boost::asio::ip::tcp::socket& socket();
 	void start();
 	void deliver( const Message& msg);
