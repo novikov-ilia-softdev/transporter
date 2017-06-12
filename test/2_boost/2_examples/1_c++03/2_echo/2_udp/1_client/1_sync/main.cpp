@@ -24,8 +24,8 @@ int main( int argc, char* argv[])
 		std::cout << "Enter message: ";
 		char request[ maxLength];
 		std::cin.getline( request, maxLength);
-		size_t request_length = strlen( request);
-		socket.send_to( boost::asio::buffer( request, request_length), *iterator);
+		size_t requestLength = strlen( request);
+		socket.send_to( boost::asio::buffer( request, requestLength), *iterator);
 
 		char reply[ maxLength];
 		boost::asio::ip::udp::endpoint senderEndpoint;
