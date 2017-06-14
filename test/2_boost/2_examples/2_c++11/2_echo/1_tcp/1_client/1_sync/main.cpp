@@ -1,4 +1,4 @@
-// g++ -o client.out main.cpp -lboost_system -lpthread
+// g++ -std=c++11 -o client.out main.cpp -lboost_system -lpthread
 
 #include <cstdlib>
 #include <cstring>
@@ -18,13 +18,9 @@ int main(int argc, char* argv[])
 		}
 
 		boost::asio::io_service ioService;
-
-		boost::asio::ip::tcp::resolver resolver( ioService);
-		boost::asio::ip::tcp::resolver::query query( boost::asio::ip::tcp::v4(), argv[1], argv[2]);
-		boost::asio::ip::tcp::resolver::iterator iterator = resolver.resolve( query);
-
 		boost::asio::ip::tcp::socket socket( ioService);
-		boost::asio::connect( socket, iterator);
+		boost::asio::ip::tcp::resolver resolver( ioService);
+		boost::asio::connect( socket, resolver.resolve( {argv[1], argv[2]}));
 
 		std::cout << "Enter message: ";
 		char request[ maxLength];
