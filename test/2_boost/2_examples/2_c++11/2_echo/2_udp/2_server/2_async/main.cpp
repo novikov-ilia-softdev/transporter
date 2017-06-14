@@ -1,4 +1,4 @@
-// g++ -o server.out main.cpp server.cpp -lboost_system
+// g++ -std=c++11 -o server.out main.cpp server.cpp -lboost_system
 
 #include <iostream>
 #include <boost/asio.hpp>
