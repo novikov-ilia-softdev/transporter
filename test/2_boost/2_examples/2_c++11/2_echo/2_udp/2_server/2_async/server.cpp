@@ -5,43 +5,32 @@
 Server::Server( boost::asio::io_service& ioService, short port):
 	socket_( ioService, boost::asio::ip::udp::endpoint( boost::asio::ip::udp::v4(), port))
 {
-	socket_.async_receive_from( boost::asio::buffer( data_, maxLength),
-								senderEndpoint_,
-								boost::bind( &Server::handleReceiveFrom,
-											 this,
-											 boost::asio::placeholders::error,
-											 boost::asio::placeholders::bytes_transferred));
+	receive_();
 }
 
-void Server::handleReceiveFrom( const boost::system::error_code& error, size_t bytesRecvd)
-{
-	if (!error && bytesRecvd > 0)
-	{
-		socket_.async_send_to( boost::asio::buffer( data_, bytesRecvd),
-													senderEndpoint_,
-													boost::bind( &Server::handleSendTo,
-																 this,
-																 boost::asio::placeholders::error,
-																 boost::asio::placeholders::bytes_transferred));
-	}
-	else
-	{
-		socket_.async_receive_from( boost::asio::buffer( data_, maxLength),
-									senderEndpoint_,
-									boost::bind( &Server::handleReceiveFrom,
-												 this,
-												 boost::asio::placeholders::error,
-												 boost::asio::placeholders::bytes_transferred));
-	}
-}
-
-void Server::handleSendTo(const boost::system::error_code& error, size_t bytesSent)
+void Server::receive_()
 {
 	socket_.async_receive_from( boost::asio::buffer( data_, maxLength),
 								senderEndpoint_,
-								boost::bind( &Server::handleReceiveFrom,
-											 this,
-											 boost::asio::placeholders::error,
-											 boost::asio::placeholders::bytes_transferred));
+								[ this](boost::system::error_code error, std::size_t bytesRecvd)
+								{
+									if (!error && bytesRecvd > 0)
+									{
+										send_( bytesRecvd);
+									}
+									else
+									{
+										receive_();
+									}
+								});
 }
 
+void Server::send_( std::size_t length)
+{
+	socket_.async_send_to( boost::asio::buffer( data_, length),
+						   senderEndpoint_,
+						   [ this](boost::system::error_code error, std::size_t bytesSent)
+						   {
+								receive_();
+						   });
+}

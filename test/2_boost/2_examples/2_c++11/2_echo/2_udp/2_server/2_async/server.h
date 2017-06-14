@@ -7,8 +7,8 @@ class Server
 {
 public:
 	Server( boost::asio::io_service& ioService, short port);
-	void handleReceiveFrom( const boost::system::error_code& error, size_t bytesRecvd);
-	void handleSendTo( const boost::system::error_code& error, size_t bytesSent);
+	void receive_();
+	void send_( std::size_t length);
 
 private:
 	boost::asio::ip::udp::socket socket_;
