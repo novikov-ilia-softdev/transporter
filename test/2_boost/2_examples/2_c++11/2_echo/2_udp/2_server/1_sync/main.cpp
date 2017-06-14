@@ -1,4 +1,4 @@
-// g++ -o server.out main.cpp -lboost_system
+// g++ -std=c++11 -o server.out main.cpp -lboost_system
 
 #include <iostream>
 #include <boost/asio.hpp>
@@ -28,7 +28,7 @@ int main( int argc, char* argv[])
 		}
 
 		boost::asio::io_service ioService;
-		server( ioService, atoi(argv[1]));
+		server( ioService, std::atoi(argv[1]));
 	}
 	catch (std::exception& e)
 	{
