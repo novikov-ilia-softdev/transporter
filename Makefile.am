@@ -1,0 +1,1 @@
+SUBDIRS = src/client src/server test/client test/server
