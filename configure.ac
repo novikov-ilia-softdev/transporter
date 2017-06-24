@@ -1,5 +1,5 @@
 AC_INIT([transporter], [1.0], [bug-automake@gnu.org])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
 AC_PROG_CXX
 AC_LANG([C++])
 AC_PROG_CC
