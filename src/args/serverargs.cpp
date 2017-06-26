@@ -1,9 +1,11 @@
 #include "serverargs.h"
-#include <iostream>
 
-ServerArgs::ServerArgs( int argc, char* argv[]):
-	argc_( argc), argv_( argv)
+ServerArgs::ServerArgs( char* port, char* transport):
+	port_( port), transport_( transport)
 {
-	port_ = argv_[ 2];
-	transport_ = argv_[ 3];
+}
+
+std::ostream& operator<<( std::ostream& stream, ServerArgs* args)
+{
+	return stream << "port: " << args->port_ << ", transport: " << args->transport_;
 }

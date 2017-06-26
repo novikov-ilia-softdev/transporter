@@ -12,6 +12,8 @@ public:
 private:
 	static const int MODE_INDEX;
 	static const int SERVER_ARGS_COUNT;
+	static const int SERVER_PORT_INDEX;
+	static const int SERVER_TRANSPORT_INDEX;
 	static const int CLIENT_ARGS_COUNT;
 
 	int argc_;

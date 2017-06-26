@@ -1,14 +1,14 @@
 #ifndef SERVERARGS_H
 #define SERVERARGS_H
 
+#include <ostream>
+
 class ServerArgs{
 public:
-	ServerArgs( int argc, char** argv);
+	ServerArgs( char* port, char* transport);
+	friend std::ostream& operator<<( std::ostream& stream, ServerArgs* args);
 
 private:
-	int argc_;
-	char** argv_;
-
 	char* port_;
 	char* transport_;
 };

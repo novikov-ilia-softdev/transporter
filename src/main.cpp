@@ -10,11 +10,14 @@ int main( int argc, char* argv[])
 	if( serverArgsPtr)
 	{
 		std::cout << "server" << std::endl;
+		std::cout << serverArgsPtr << std::endl;
 		//std::cout << "ServerArgs: " << serverArgs << std::endl;
 	}
 
+	/*
 	if( argsParser.isClient())
 	{
 		std::cout << "client" << std::endl;
 	}
+	*/
 }
