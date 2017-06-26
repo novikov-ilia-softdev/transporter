@@ -1,11 +1,13 @@
 #ifndef ARGSPARSER_H
 #define ARGSPARSER_H
 
+#include "serverargs.h"
+
 class ArgsParser{
 public:
 	ArgsParser( int argc, char** argv);
-	bool isServer() const;
 	bool isClient() const;
+	ServerArgs* getServerArgs() const;
 
 private:
 	static const int MODE_INDEX;

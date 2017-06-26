@@ -8,14 +8,6 @@ const int ArgsParser::CLIENT_ARGS_COUNT = 5;
 ArgsParser::ArgsParser( int argc, char* argv[]):
 	argc_( argc), argv_( argv)
 {
-
-}
-
-bool ArgsParser::isServer() const
-{
-	// -s port tcp/udp
-	return ( argc_ == SERVER_ARGS_COUNT &&
-			 std::string( argv_[ MODE_INDEX]) == "-s");
 }
 
 bool ArgsParser::isClient() const
@@ -25,3 +17,14 @@ bool ArgsParser::isClient() const
 			 std::string( argv_[ MODE_INDEX]) == "-c");
 }
 
+ServerArgs* ArgsParser::getServerArgs() const
+{
+	// -s port tcp/udp
+	if( argc_ == SERVER_ARGS_COUNT &&
+		std::string( argv_[ MODE_INDEX]) == "-s")
+	{
+		return new ServerArgs( argc_, argv_);
+	}
+
+	return 0;
+}
