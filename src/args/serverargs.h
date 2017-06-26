@@ -2,6 +2,7 @@
 #define SERVERARGS_H
 
 #include <ostream>
+#include <memory>
 
 class ServerArgs{
 public:
@@ -12,5 +13,7 @@ private:
 	char* port_;
 	char* transport_;
 };
+
+typedef std::shared_ptr<ServerArgs> ServerArgsPtr;
 
 #endif // SERVERARGS_H

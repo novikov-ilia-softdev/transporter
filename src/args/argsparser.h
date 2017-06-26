@@ -7,7 +7,7 @@ class ArgsParser{
 public:
 	ArgsParser( int argc, char** argv);
 	bool isClient() const;
-	ServerArgs* getServerArgs() const;
+	ServerArgsPtr getServerArgs() const;
 
 private:
 	static const int MODE_INDEX;

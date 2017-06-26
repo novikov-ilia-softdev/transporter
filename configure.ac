@@ -4,6 +4,7 @@ AC_PROG_CXX
 AC_LANG([C++])
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
+CXXFLAGS="$CXXFLAGS -std=c++11"
 
 AC_CHECK_LIB([pthread], [main], [],
 [ 

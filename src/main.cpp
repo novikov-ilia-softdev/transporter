@@ -1,17 +1,15 @@
 #include <iostream>
 #include "args/argsparser.h"
-#include "args/serverargs.h"
 
 int main( int argc, char* argv[])
 {
 	ArgsParser argsParser( argc, argv);
 
-	ServerArgs* serverArgsPtr = argsParser.getServerArgs();
+	ServerArgsPtr serverArgsPtr = argsParser.getServerArgs();
 	if( serverArgsPtr)
 	{
 		std::cout << "server" << std::endl;
 		std::cout << serverArgsPtr << std::endl;
-		//std::cout << "ServerArgs: " << serverArgs << std::endl;
 	}
 
 	/*
