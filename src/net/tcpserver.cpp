@@ -5,3 +5,8 @@ TCPServer::TCPServer( ServerArgsPtr serverArgsPtr):
 {
 	std::cout << "TCPServer" << std::endl;
 }
+
+void TCPServer::run()
+{
+	std::cout << "TCPServer::run" << std::endl;
+}

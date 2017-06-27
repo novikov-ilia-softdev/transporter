@@ -7,6 +7,7 @@
 class IServer{
 public:
 	IServer( ServerArgsPtr ServerArgsPtr);
+	virtual void run() = 0;
 	virtual ~IServer() = 0;
 };
 

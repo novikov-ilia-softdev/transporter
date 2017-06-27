@@ -8,6 +8,7 @@
 class TCPServer: public IServer{
 public:
 	TCPServer( ServerArgsPtr serverArgsPtr);
+	void run();
 
 private:
 	ServerArgsPtr serverArgsPtr_;

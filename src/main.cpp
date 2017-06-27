@@ -13,7 +13,7 @@ int main( int argc, char* argv[])
 		std::cout << "server" << std::endl;
 		std::cout << serverArgsPtr << std::endl;
 		IServerPtr serverPtr = netEndpointCreator.createServer( serverArgsPtr);
-		//serverPtr->run();
+		serverPtr->run();
 		return 0;
 	}
 
