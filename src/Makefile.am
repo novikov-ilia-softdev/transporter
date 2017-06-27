@@ -6,4 +6,5 @@ transporter_SOURCES = main.cpp \
 					  					  \
 					  net/netendpointcreator.cpp	\
 					  net/iserver.cpp	\
-					  net/tcpserver.cpp
+					  net/tcpserver.cpp \
+					  net/transport.cpp

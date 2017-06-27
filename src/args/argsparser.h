@@ -14,10 +14,12 @@ public:
 private:
 	static const int MODE_INDEX;
 
+	static const std::string SERVER_MODE;
 	static const int SERVER_ARGS_COUNT;
 	static const int SERVER_PORT_INDEX;
 	static const int SERVER_TRANSPORT_INDEX;
 
+	static const std::string CLIENT_MODE;
 	static const int CLIENT_ARGS_COUNT;
 	static const int CLIENT_ADDRESS_TO_CONNECT_INDEX;
 	static const int CLIENT_TRASNPORT_INDEX;
