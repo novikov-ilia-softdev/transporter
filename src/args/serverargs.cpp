@@ -10,3 +10,8 @@ std::ostream& operator<<( std::ostream& stream, ServerArgs* args)
 	return stream << "port: " << args->port_
 				  <<", transport: " << args->transport_;
 }
+
+char* ServerArgs::getTransport() const
+{
+	return transport_;
+}

@@ -1,15 +1,19 @@
 #include <iostream>
 #include "args/argsparser.h"
+#include "net/netendpointcreator.h"
 
 int main( int argc, char* argv[])
 {
 	ArgsParser argsParser( argc, argv);
+	NetEndpointCreator netEndpointCreator;
 
 	ServerArgsPtr serverArgsPtr = argsParser.getServerArgs();
 	if( serverArgsPtr)
 	{
 		std::cout << "server" << std::endl;
 		std::cout << serverArgsPtr << std::endl;
+		IServerPtr serverPtr = netEndpointCreator.createServer( serverArgsPtr);
+		//serverPtr->run();
 		return 0;
 	}
 
