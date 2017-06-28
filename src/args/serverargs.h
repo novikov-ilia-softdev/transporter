@@ -7,6 +7,7 @@
 class ServerArgs{
 public:
 	ServerArgs( char* port, char* transport);
+	char* getPort() const;
 	char* getTransport() const;
 	friend std::ostream& operator<<( std::ostream& stream, ServerArgs* args);
 

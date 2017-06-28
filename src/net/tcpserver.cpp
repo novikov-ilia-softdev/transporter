@@ -1,9 +1,12 @@
 #include "tcpserver.h"
+#include "session.h"
 
 TCPServer::TCPServer( ServerArgsPtr serverArgsPtr):
 	IServer( serverArgsPtr),
 	serverArgsPtr_( serverArgsPtr),
-	acceptor_( ioService_, boost::asio::ip::tcp::endpoint( boost::asio::ip::tcp::v4(), 12345)),
+	acceptor_( ioService_,
+			  boost::asio::ip::tcp::endpoint( boost::asio::ip::tcp::v4(),
+					  	  	  	  	  	  	  std::atoi( serverArgsPtr->getPort()))),
 	socket_( ioService_)
 {
 	std::cout << "TCPServer" << std::endl;
@@ -24,7 +27,7 @@ void TCPServer::accept_()
 							{
 								if( !ec)
 								{
-									//std::make_shared<Session>( std::move( socket_))->start();
+									std::make_shared<Session>( std::move( socket_))->start();
 									std::cout << "connected!" << std::endl;
 								}
 
