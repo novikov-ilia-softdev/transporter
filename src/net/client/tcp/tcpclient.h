@@ -1,11 +1,8 @@
 #ifndef TCPCLIENT_H
 #define TCPCLIENT_H
 
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
 #include <boost/asio.hpp>
-#include "iclient.h"
+#include "net/client/iclient.h"
 
 class TCPClient: public IClient{
 public:

@@ -1,6 +1,6 @@
 #include "netendpointcreator.h"
-#include "tcpserver.h"
-#include "tcpclient.h"
+#include "server/tcp/tcpserver.h"
+#include "client/tcp/tcpclient.h"
 #include "transport.h"
 
 NetEndpointCreator::NetEndpointCreator()

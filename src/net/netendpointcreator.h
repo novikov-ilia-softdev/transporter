@@ -1,9 +1,9 @@
 #ifndef NETENDPOINTCREATOR_H
 #define NETENDPOINTCREATOR_H
 
-#include "iserver.h"
+#include "server/iserver.h"
 #include "args/serverargs.h"
-#include "iclient.h"
+#include "client/iclient.h"
 #include "args/clientargs.h"
 
 class NetEndpointCreator{

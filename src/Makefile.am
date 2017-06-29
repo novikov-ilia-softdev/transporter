@@ -1,13 +1,14 @@
 bin_PROGRAMS = transporter
+AM_CPPFLAGS = -I$(top_srcdir)
 transporter_SOURCES = main.cpp \
 					  args/argsparser.cpp \
 					  args/serverargs.cpp \
 					  args/clientargs.cpp \
 					  					  \
 					  net/netendpointcreator.cpp	\
-					  net/iserver.cpp	\
-					  net/tcpserver.cpp \
-					  net/iclient.cpp \
-					  net/tcpclient.cpp \
 					  net/transport.cpp \
-					  net/session.cpp
+					  net/server/iserver.cpp	\
+					  net/server/tcp/session.cpp \
+					  net/server/tcp/tcpserver.cpp \
+					  net/client/iclient.cpp \
+					  net/client/tcp/tcpclient.cpp

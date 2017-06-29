@@ -1,5 +1,6 @@
 #include "tcpserver.h"
 #include "session.h"
+#include <iostream>
 
 TCPServer::TCPServer( ServerArgsPtr serverArgsPtr):
 	IServer( serverArgsPtr),

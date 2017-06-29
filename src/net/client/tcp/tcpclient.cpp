@@ -1,4 +1,5 @@
 #include "tcpclient.h"
+#include <iostream>
 
 TCPClient::TCPClient( ClientArgsPtr clientArgsPtr):
 	IClient( clientArgsPtr),
