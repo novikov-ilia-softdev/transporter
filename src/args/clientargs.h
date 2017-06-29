@@ -6,11 +6,15 @@
 
 class ClientArgs{
 public:
-	ClientArgs( char* addressToConnect, char* transport, char* filePath);
+	ClientArgs( char* addressToConnect, char* portToConnect, char* transport, char* filePath);
+	char* getAddressToConnect() const;
+	char* getPortToConnect() const;
+	char* getTransport() const;
 	friend std::ostream& operator<<( std::ostream& stream, ClientArgs* args);
 
 private:
 	char* addressToConnect_;
+	char* portToConnect_;
 	char* transport_;
 	char* filePath_;
 };

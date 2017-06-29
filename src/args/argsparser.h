@@ -22,6 +22,7 @@ private:
 	static const std::string CLIENT_MODE;
 	static const int CLIENT_ARGS_COUNT;
 	static const int CLIENT_ADDRESS_TO_CONNECT_INDEX;
+	static const int CLIENT_PORT_TO_CONNECT_INDEX;
 	static const int CLIENT_TRASNPORT_INDEX;
 	static const int CLIENT_FILE_INDEX;
 
