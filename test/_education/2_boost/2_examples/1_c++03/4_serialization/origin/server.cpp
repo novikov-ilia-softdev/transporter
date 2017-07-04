@@ -8,8 +8,6 @@
 #include "connection.hpp" // Must come before boost/serialization headers.
 #include <boost/serialization/vector.hpp>
 #include "stock.hpp"
-#include <fstream>
-#include <string>
 
 namespace s11n_example {
 
@@ -25,13 +23,27 @@ public:
   {
     // Create the data to be sent to each client.
     stock s;
-    s.name = "ABC";
-    s.size = 1234;
-
-    std::ifstream ifs("server.cpp");
-	std::string content( (std::istreambuf_iterator<char>(ifs) ),
-					   (std::istreambuf_iterator<char>()    ) );
-    s.content = content;
+    s.code = "ABC";
+    s.name = "A Big Company";
+    s.open_price = 4.56;
+    s.high_price = 5.12;
+    s.low_price = 4.33;
+    s.last_price = 4.98;
+    s.buy_price = 4.96;
+    s.buy_quantity = 1000;
+    s.sell_price = 4.99;
+    s.sell_quantity = 2000;
+    stocks_.push_back(s);
+    s.code = "DEF";
+    s.name = "Developer Entertainment Firm";
+    s.open_price = 20.24;
+    s.high_price = 22.88;
+    s.low_price = 19.50;
+    s.last_price = 19.76;
+    s.buy_price = 19.72;
+    s.buy_quantity = 34000;
+    s.sell_price = 19.85;
+    s.sell_quantity = 45000;
     stocks_.push_back(s);
 
     // Start an accept operation for a new connection.

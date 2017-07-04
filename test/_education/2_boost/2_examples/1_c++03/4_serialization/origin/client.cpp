@@ -61,9 +61,16 @@ public:
       for (std::size_t i = 0; i < stocks_.size(); ++i)
       {
         std::cout << "Stock number " << i << "\n";
-        std::cout << "  code: " << stocks_[i].name << "\n";
-        std::cout << "  name: " << stocks_[i].size << "\n";
-        std::cout << "  content: " << stocks_[i].content << "\n";
+        std::cout << "  code: " << stocks_[i].code << "\n";
+        std::cout << "  name: " << stocks_[i].name << "\n";
+        std::cout << "  open_price: " << stocks_[i].open_price << "\n";
+        std::cout << "  high_price: " << stocks_[i].high_price << "\n";
+        std::cout << "  low_price: " << stocks_[i].low_price << "\n";
+        std::cout << "  last_price: " << stocks_[i].last_price << "\n";
+        std::cout << "  buy_price: " << stocks_[i].buy_price << "\n";
+        std::cout << "  buy_quantity: " << stocks_[i].buy_quantity << "\n";
+        std::cout << "  sell_price: " << stocks_[i].sell_price << "\n";
+        std::cout << "  sell_quantity: " << stocks_[i].sell_quantity << "\n";
       }
     }
     else
