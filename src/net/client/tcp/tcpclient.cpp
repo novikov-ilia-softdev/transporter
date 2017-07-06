@@ -1,5 +1,6 @@
 #include "tcpclient.h"
 #include <iostream>
+#include "file/filemanager.h"
 
 TCPClient::TCPClient( ClientArgsPtr clientArgsPtr):
 	IClient( clientArgsPtr),
@@ -12,6 +13,9 @@ TCPClient::TCPClient( ClientArgsPtr clientArgsPtr):
 
 void TCPClient::run()
 {
+	FileManager fileManager;
+	File file = fileManager.getFile( clientArgsPtr_->getFilePath());
+
 	try
 	{
 		boost::asio::connect( socket_, resolver_.resolve( { clientArgsPtr_->getAddressToConnect(), clientArgsPtr_->getPortToConnect() } ));

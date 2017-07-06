@@ -26,3 +26,8 @@ char* ClientArgs::getTransport() const
 {
 	return transport_;
 }
+
+char* ClientArgs::getFilePath() const
+{
+	return filePath_;
+}

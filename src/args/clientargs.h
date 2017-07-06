@@ -10,6 +10,7 @@ public:
 	char* getAddressToConnect() const;
 	char* getPortToConnect() const;
 	char* getTransport() const;
+	char* getFilePath() const;
 	friend std::ostream& operator<<( std::ostream& stream, ClientArgs* args);
 
 private:
