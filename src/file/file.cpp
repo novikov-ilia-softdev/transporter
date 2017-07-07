@@ -1,5 +1,12 @@
 #include "file.h"
 #include <fstream>
+#include <iostream>
+
+File::File()
+{
+
+}
+
 
 File::File( char* path)
 {
