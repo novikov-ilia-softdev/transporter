@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <ostream>
 
 class File{
 public:
@@ -16,6 +17,8 @@ public:
 		ar & size_;
 		ar & content_;
 	}
+
+	friend std::ostream& operator<<( std::ostream& stream, const File& file);
 
 private:
 	std::string name_;

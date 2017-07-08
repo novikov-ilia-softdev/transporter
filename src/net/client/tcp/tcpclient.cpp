@@ -78,6 +78,8 @@ void TCPClient::run()
 		std::cout << "writing... ";
 		boost::asio::write(socket_, buffers);
 		std::cout << "OK!" << std::endl;
+
+		std::cout << file << std::endl;
 	}
 	catch( std::exception& e)
 	{

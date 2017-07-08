@@ -16,3 +16,10 @@ File::File( char* path)
 
 	content_ = content;
 }
+
+std::ostream& operator<<( std::ostream& stream, const File& file)
+{
+	return stream << "name_: " << file.name_ << std::endl
+				  << "size_: " << file.size_ << std::endl
+				  << "content_: " << file.content_;
+}
