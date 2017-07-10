@@ -17,33 +17,32 @@ void Session::start()
 void Session::read_()
 {
 	auto self( shared_from_this());
-	const std::size_t header_length = 8;
 	boost::asio::async_read(
 			socket_,
-			boost::asio::buffer(inbound_header_),
+			boost::asio::buffer( inboundHeader_),
 			[this, self]( boost::system::error_code ec, std::size_t length)
 			{
 				if( !ec)
 				{
-					std::istringstream is(std::string(inbound_header_, header_length));
-					std::size_t inbound_data_size = 0;
-					if (!(is >> std::hex >> inbound_data_size))
+					std::istringstream is( std::string( inboundHeader_, headerLength_));
+					std::size_t inboundDataSize = 0;
+					if ( !( is >> std::hex >> inboundDataSize))
 					{
 						std::cout << "error" << std::endl;
 						return;
 					}
 
-					inbound_data_.resize(inbound_data_size);
+					inboundData_.resize( inboundDataSize);
 					boost::asio::async_read(
 						socket_,
-						boost::asio::buffer( inbound_data_),
+						boost::asio::buffer( inboundData_),
 						[this, self]( boost::system::error_code ec, std::size_t length)
 						{
 							if( !ec)
 							{
-								std::string archive_data(&inbound_data_[0], inbound_data_.size());
-								std::istringstream archive_stream(archive_data);
-								boost::archive::text_iarchive archive(archive_stream);
+								std::string archiveData( &inboundData_[0], inboundData_.size());
+								std::istringstream archiveStream( archiveData);
+								boost::archive::text_iarchive archive( archiveStream);
 								File file;
 								archive >> file;
 								std::cout << file << std::endl;

@@ -15,11 +15,9 @@ private:
 
 private:
 	boost::asio::ip::tcp::socket socket_;
-	enum { maxLength = 1024 };
-	char data_[ maxLength];
-	char inbound_header_[8];
-	std::vector<char> inbound_data_;
-
+	enum { headerLength_ = 8 };
+	char inboundHeader_[headerLength_];
+	std::vector<char> inboundData_;
 };
 
 #endif // SESSION_H
