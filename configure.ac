@@ -30,6 +30,12 @@ AC_CHECK_LIB([boost_serialization], [main], [],
     exit -1
 ])
 
+AC_CHECK_LIB([boost_filesystem], [main], [],
+[ 
+    echo "boost_filesystem failure." 
+    exit -1
+])
+
 AC_CONFIG_FILES([
  	Makefile
  	src/Makefile

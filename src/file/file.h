@@ -9,12 +9,13 @@ class File{
 public:
 	File();
 	File( char* path);
+	const std::string& getName() const;
+	const std::string& getContent() const;
 
 	template <typename Archive>
 	void serialize(Archive& ar, const unsigned int version)
 	{
 		ar & name_;
-		ar & size_;
 		ar & content_;
 	}
 
@@ -22,7 +23,6 @@ public:
 
 private:
 	std::string name_;
-	std::size_t size_;
 	std::string content_;
 };
 

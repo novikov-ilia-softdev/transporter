@@ -6,6 +6,7 @@
 class FileManager{
 public:
 	File getFile( char* filePath);
+	void createFile( const File& file);
 };
 
 #endif // FILEMANAGER_H

@@ -1,5 +1,6 @@
 #include "session.h"
 #include "file/file.h"
+#include "file/filemanager.h"
 #include <iostream>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -45,7 +46,10 @@ void Session::read_()
 								boost::archive::text_iarchive archive( archiveStream);
 								File file;
 								archive >> file;
-								std::cout << file << std::endl;
+								//std::cout << file << std::endl;
+
+								FileManager fileManager;
+								fileManager.createFile( file);
 							}
 						});
 				}
