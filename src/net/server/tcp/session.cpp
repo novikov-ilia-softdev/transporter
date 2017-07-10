@@ -2,17 +2,7 @@
 #include "file/file.h"
 #include <iostream>
 #include <boost/archive/text_iarchive.hpp>
-
-#include <boost/asio.hpp>
-#include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
-#include <boost/bind.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <iomanip>
-#include <string>
-#include <sstream>
-#include <vector>
 
 Session::Session( boost::asio::ip::tcp::socket socket):
 	socket_( std::move( socket))
