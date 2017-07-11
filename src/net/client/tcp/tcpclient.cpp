@@ -32,8 +32,6 @@ void TCPClient::run()
 
 		std::ostringstream headerStream;
 
-		const std::size_t headerLength = 8;
-
 		headerStream << std::setw( Message::headerLength) << std::hex << outboundData.size();
 		if (!headerStream || headerStream.str().size() != Message::headerLength)
 		{
