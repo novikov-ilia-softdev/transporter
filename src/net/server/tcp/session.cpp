@@ -1,6 +1,5 @@
 #include "session.h"
 #include "file/file.h"
-#include "file/filemanager.h"
 #include <iostream>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -25,7 +24,7 @@ void Session::read_()
 			{
 				if( !ec)
 				{
-					std::istringstream is( std::string( inboundHeader_, headerLength_));
+					std::istringstream is( std::string( inboundHeader_, Message::headerLength));
 					std::size_t inboundDataSize = 0;
 					if ( !( is >> std::hex >> inboundDataSize))
 					{
@@ -48,8 +47,7 @@ void Session::read_()
 								archive >> file;
 								//std::cout << file << std::endl;
 
-								FileManager fileManager;
-								fileManager.createFile( file);
+								fileManager_.createFile( file);
 							}
 						});
 				}

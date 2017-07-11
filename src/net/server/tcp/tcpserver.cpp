@@ -10,15 +10,12 @@ TCPServer::TCPServer( ServerArgsPtr serverArgsPtr):
 					  	  	  	  	  	  	  std::atoi( serverArgsPtr->getPort()))),
 	socket_( ioService_)
 {
-	std::cout << "TCPServer" << std::endl;
 	accept_();
 }
 
 void TCPServer::run()
 {
-	std::cout << "TCPServer::run before" << std::endl;
 	ioService_.run();
-	std::cout << "TCPServer::run after" << std::endl;
 }
 
 void TCPServer::accept_()
@@ -28,8 +25,8 @@ void TCPServer::accept_()
 							{
 								if( !ec)
 								{
-									std::make_shared<Session>( std::move( socket_))->start();
 									std::cout << "connected!" << std::endl;
+									std::make_shared<Session>( std::move( socket_))->start();
 								}
 
 								accept_();

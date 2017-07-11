@@ -1,7 +1,7 @@
 #include "tcpclient.h"
 #include <iostream>
-#include "file/filemanager.h"
 #include <boost/archive/text_oarchive.hpp>
+#include "message/message.h"
 
 TCPClient::TCPClient( ClientArgsPtr clientArgsPtr):
 	IClient( clientArgsPtr),
@@ -15,8 +15,9 @@ void TCPClient::run()
 {
 	try
 	{
-		FileManager fileManager;
-		File file = fileManager.getFile( clientArgsPtr_->getFilePath());
+		std::cout << "reading file... ";
+		File file = fileManager_.getFile( clientArgsPtr_->getFilePath());
+		std::cout << "OK!" << std::endl;
 
 		std::cout << "connecting... ";
 		boost::asio::connect( socket_, resolver_.resolve( { clientArgsPtr_->getAddressToConnect(), clientArgsPtr_->getPortToConnect() } ));
@@ -33,8 +34,8 @@ void TCPClient::run()
 
 		const std::size_t headerLength = 8;
 
-		headerStream << std::setw( headerLength) << std::hex << outboundData.size();
-		if (!headerStream || headerStream.str().size() != headerLength)
+		headerStream << std::setw( Message::headerLength) << std::hex << outboundData.size();
+		if (!headerStream || headerStream.str().size() != Message::headerLength)
 		{
 		  std::cout << "error" << std::endl;
 		  return;

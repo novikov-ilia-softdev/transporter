@@ -3,6 +3,7 @@
 
 #include <boost/asio.hpp>
 #include "net/client/iclient.h"
+#include "file/filemanager.h"
 
 class TCPClient: public IClient{
 public:
@@ -10,11 +11,11 @@ public:
 	void run();
 
 private:
-	enum { maxLength_ = 1024 };
 	ClientArgsPtr clientArgsPtr_;
 	boost::asio::io_service ioService_;
 	boost::asio::ip::tcp::socket socket_;
 	boost::asio::ip::tcp::resolver resolver_;
+	FileManager fileManager_;
 };
 
 typedef std::shared_ptr<TCPClient> TCPClientPtr;
