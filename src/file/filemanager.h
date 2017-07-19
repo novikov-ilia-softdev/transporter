@@ -5,7 +5,7 @@
 
 class FileManager{
 public:
-	File getFile( char* filePath);
+	FilePtr getFile( char* filePath);
 	void createFile( const File& file);
 };
 

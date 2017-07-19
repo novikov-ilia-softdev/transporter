@@ -1,9 +1,15 @@
 #include "filemanager.h"
 #include <fstream>
+#include <boost/filesystem.hpp>
 
-File FileManager::getFile( char* filePath)
+FilePtr FileManager::getFile( char* filePath)
 {
-	return File( filePath);
+	if( !boost::filesystem::exists( filePath))
+	{
+		return 0;
+	}
+
+	return FilePtr( new File( filePath));
 }
 
 void FileManager::createFile( const File& file)

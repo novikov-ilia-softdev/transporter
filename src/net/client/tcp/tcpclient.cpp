@@ -16,7 +16,12 @@ void TCPClient::run()
 	try
 	{
 		std::cout << "reading file... ";
-		File file = fileManager_.getFile( clientArgsPtr_->getFilePath());
+		FilePtr file = fileManager_.getFile( clientArgsPtr_->getFilePath());
+		if( !file)
+		{
+			std::cout << "error!" << std::endl;
+			return;
+		}
 		std::cout << "OK!" << std::endl;
 
 		std::cout << "connecting... ";
@@ -25,7 +30,7 @@ void TCPClient::run()
 
 		std::ostringstream archiveStream;
 		boost::archive::text_oarchive archive( archiveStream);
-		archive << file;
+		archive << *file;
 		std::string outboundData;
 		std::string outboundHeader;
 		outboundData = archiveStream.str();
