@@ -26,7 +26,7 @@ void Session::read_()
 				{
 					std::istringstream is( std::string( inboundHeader_, Message::headerLength));
 					std::size_t inboundDataSize = 0;
-					if ( !( is >> std::hex >> inboundDataSize))
+					if( !( is >> std::hex >> inboundDataSize))
 					{
 						std::cout << "error" << std::endl;
 						return;

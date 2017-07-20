@@ -1,7 +1,5 @@
 #include "tcpclient.h"
 #include <iostream>
-#include <boost/archive/text_oarchive.hpp>
-#include "message/message.h"
 
 TCPClient::TCPClient( ClientArgsPtr clientArgsPtr):
 	IClient( clientArgsPtr),
@@ -28,27 +26,13 @@ void TCPClient::run()
 		boost::asio::connect( socket_, resolver_.resolve( { clientArgsPtr_->getAddressToConnect(), clientArgsPtr_->getPortToConnect() } ));
 		std::cout << "OK!" << std::endl;
 
-		std::ostringstream archiveStream;
-		boost::archive::text_oarchive archive( archiveStream);
-		archive << *file;
+		std::cout << "writing... ";
 		std::string outboundData;
 		std::string outboundHeader;
-		outboundData = archiveStream.str();
-
-		std::ostringstream headerStream;
-
-		headerStream << std::setw( Message::headerLength) << std::hex << outboundData.size();
-		if (!headerStream || headerStream.str().size() != Message::headerLength)
-		{
-		  std::cout << "error" << std::endl;
-		  return;
-		}
-		outboundHeader = headerStream.str();
-
 		std::vector<boost::asio::const_buffer> buffers;
+		fileManager_.serialize( outboundData, outboundHeader, file);
 		buffers.push_back(boost::asio::buffer( outboundHeader));
 		buffers.push_back(boost::asio::buffer( outboundData));
-		std::cout << "writing... ";
 		boost::asio::write( socket_, buffers);
 		std::cout << "OK!" << std::endl;
 	}
