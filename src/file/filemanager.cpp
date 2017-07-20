@@ -21,12 +21,12 @@ void FileManager::createFile( const File& file)
 	outFile.close();
 }
 
-void FileManager::serialize( std::string& outboundData, std::string& outboundHeader, FilePtr file)
+Buffers FileManager::serialize( FilePtr file)
 {
 	std::ostringstream archiveStream;
 	boost::archive::text_oarchive archive( archiveStream);
 	archive << *file;
-	outboundData = archiveStream.str();
+	std::string outboundData = archiveStream.str();
 
 	std::ostringstream headerStream;
 
@@ -36,5 +36,11 @@ void FileManager::serialize( std::string& outboundData, std::string& outboundHea
 	{
 		std::cout << "error" << std::endl;
 	}
-	outboundHeader = headerStream.str();
+	std::string outboundHeader = headerStream.str();
+
+	Buffers buffers;
+	buffers.push_back( boost::asio::buffer( outboundHeader));
+	buffers.push_back( boost::asio::buffer( outboundData));
+
+	return buffers;
 }

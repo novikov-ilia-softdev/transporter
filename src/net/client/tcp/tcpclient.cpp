@@ -27,12 +27,8 @@ void TCPClient::run()
 		std::cout << "OK!" << std::endl;
 
 		std::cout << "writing... ";
-		std::string outboundData;
-		std::string outboundHeader;
-		std::vector<boost::asio::const_buffer> buffers;
-		fileManager_.serialize( outboundData, outboundHeader, file);
-		buffers.push_back(boost::asio::buffer( outboundHeader));
-		buffers.push_back(boost::asio::buffer( outboundData));
+		Buffers buffers = fileManager_.serialize( file);
+		std::cout << buffers[ 0].get() << std::endl;
 		boost::asio::write( socket_, buffers);
 		std::cout << "OK!" << std::endl;
 	}

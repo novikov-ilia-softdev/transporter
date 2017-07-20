@@ -5,11 +5,13 @@
 #include <vector>
 #include <boost/asio.hpp>
 
+typedef std::vector<boost::asio::const_buffer> Buffers;
+
 class FileManager{
 public:
 	FilePtr getFile( char* filePath);
 	void createFile( const File& file);
-	void serialize( std::string& outboundData, std::string& outboundHeader, FilePtr file);
+	Buffers serialize( FilePtr file);
 };
 
 #endif // FILEMANAGER_H

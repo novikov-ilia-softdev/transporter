@@ -40,14 +40,21 @@ void Session::read_()
 						{
 							if( !ec)
 							{
-								std::string archiveData( &inboundData_[0], inboundData_.size());
-								std::istringstream archiveStream( archiveData);
-								boost::archive::text_iarchive archive( archiveStream);
-								File file;
-								archive >> file;
-								//std::cout << file << std::endl;
+								try
+								{
+									std::string archiveData( &inboundData_[0], inboundData_.size());
+									std::istringstream archiveStream( archiveData);
+									boost::archive::text_iarchive archive( archiveStream);
+									File file;
+									archive >> file;
+									//std::cout << file << std::endl;
 
-								fileManager_.createFile( file);
+									fileManager_.createFile( file);
+								}
+								catch( std::exception& e)
+								{
+									std::cerr << "Exception: " << e.what() << "\n";
+								}
 							}
 						});
 				}
