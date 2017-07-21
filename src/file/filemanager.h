@@ -4,6 +4,7 @@
 #include "file.h"
 #include <vector>
 #include <boost/asio.hpp>
+#include <boost/archive/text_oarchive.hpp>
 
 typedef std::vector<boost::asio::const_buffer> Buffers;
 

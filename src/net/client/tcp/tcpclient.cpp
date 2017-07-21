@@ -27,9 +27,7 @@ void TCPClient::run()
 		std::cout << "OK!" << std::endl;
 
 		std::cout << "writing... ";
-		Buffers buffers = fileManager_.serialize( file);
-		std::cout << buffers[ 0].get() << std::endl;
-		boost::asio::write( socket_, buffers);
+		boost::asio::write( socket_, fileManager_.serialize( file));
 		std::cout << "OK!" << std::endl;
 	}
 	catch( std::exception& e)
