@@ -26,13 +26,11 @@ Buffers FileManager::serialize( FilePtr file)
 	std::ostringstream archiveStream;
 	boost::archive::text_oarchive archive( archiveStream);
 	archive << *file;
-	typedef std::shared_ptr<std::string> StringPtr;
-	//StringPtr outboundData = StringPtr( new std::string( archiveStream.str()));
-	std::string* outboundData = new std::string( archiveStream.str());
+	outboundData_ = archiveStream.str();
 
 	std::ostringstream headerStream;
 
-	headerStream << std::setw( Message::headerLength) << std::hex << outboundData->size();
+	headerStream << std::setw( Message::headerLength) << std::hex << outboundData_.size();
 
 	if( !headerStream || headerStream.str().size() != Message::headerLength)
 	{
@@ -42,7 +40,7 @@ Buffers FileManager::serialize( FilePtr file)
 
 	Buffers buffers;
 	buffers.push_back( boost::asio::buffer( outboundHeader));
-	buffers.push_back( boost::asio::buffer( *outboundData));
+	buffers.push_back( boost::asio::buffer( outboundData_));
 
 	return buffers;
 }

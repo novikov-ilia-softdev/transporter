@@ -13,6 +13,7 @@ public:
 	FilePtr getFile( char* filePath);
 	void createFile( const File& file);
 	Buffers serialize( FilePtr file);
+	std::string outboundData_;
 };
 
 #endif // FILEMANAGER_H
