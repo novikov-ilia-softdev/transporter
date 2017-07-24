@@ -20,12 +20,13 @@ void TCPServer::run()
 
 void TCPServer::accept_()
 {
+	std::cout << "accepting..." << std::endl;
 	acceptor_.async_accept( socket_,
 							[ this]( boost::system::error_code ec)
 							{
 								if( !ec)
 								{
-									std::cout << "connected!" << std::endl;
+									std::cout << "connected " << socket_.remote_endpoint().address().to_string() << std::endl;
 									std::make_shared<Session>( std::move( socket_))->start();
 								}
 

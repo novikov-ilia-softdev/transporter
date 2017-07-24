@@ -47,9 +47,9 @@ void Session::read_()
 									boost::archive::text_iarchive archive( archiveStream);
 									File file;
 									archive >> file;
-									//std::cout << file << std::endl;
-
+									std::cout << "received file " << file.getName() << std::endl;
 									fileManager_.createFile( file);
+									socket_.close();
 								}
 								catch( std::exception& e)
 								{
