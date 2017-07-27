@@ -12,6 +12,7 @@ transporter_SOURCES = main.cpp \
 					  net/server/tcp/tcpserver.cpp \
 					  net/client/iclient.cpp \
 					  net/client/tcp/tcpclient.cpp \
+					  net/client/udp/udpclient.cpp \
 					  \
 					  file/filemanager.cpp \
 					  file/file.cpp
