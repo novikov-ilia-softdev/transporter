@@ -13,8 +13,8 @@ public:
 private:
 	ClientArgsPtr clientArgsPtr_;
 	boost::asio::io_service ioService_;
-	boost::asio::ip::tcp::socket socket_;
-	boost::asio::ip::tcp::resolver resolver_;
+	boost::asio::ip::udp::socket socket_;
+	boost::asio::ip::udp::resolver resolver_;
 	FileManager fileManager_;
 };
 
