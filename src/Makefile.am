@@ -10,6 +10,7 @@ transporter_SOURCES = main.cpp \
 					  net/server/iserver.cpp	\
 					  net/server/tcp/session.cpp \
 					  net/server/tcp/tcpserver.cpp \
+					  net/server/udp/udpserver.cpp \
 					  net/client/iclient.cpp \
 					  net/client/tcp/tcpclient.cpp \
 					  net/client/udp/udpclient.cpp \
