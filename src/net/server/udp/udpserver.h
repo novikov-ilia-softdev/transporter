@@ -4,6 +4,8 @@
 #include <memory>
 #include <boost/asio.hpp>
 #include "net/server/iserver.h"
+#include "message/message.h"
+#include "file/filemanager.h"
 
 class UDPServer: public IServer{
 public:
@@ -18,6 +20,9 @@ private:
 	boost::asio::io_service ioService_;
 	boost::asio::ip::udp::socket socket_;
 	boost::asio::ip::udp::endpoint senderEndpoint_;
+	char inboundHeader_[ Message::headerLength];
+	std::vector<char> inboundData_;
+	FileManager fileManager_;
 };
 
 typedef std::shared_ptr<UDPServer> UDPServerPtr;
