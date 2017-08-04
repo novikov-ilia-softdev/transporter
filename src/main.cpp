@@ -24,4 +24,7 @@ int main( int argc, char* argv[])
 	}
 
 	std::cerr << "unknown args!" << std::endl;
+	std::cout << "Example:" << std::endl;
+	std::cout << "server: ./transporter -s 12345 tcp" << std::endl;
+	std::cout << "client: ./transporter -c 127.0.0.1 12345 tcp filePath" << std::endl;
 }

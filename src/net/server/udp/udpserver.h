@@ -13,14 +13,17 @@ public:
 	void run();
 
 private:
+	static const unsigned int INBOUND_DATA_BUFFER_SIZE;
+
+private:
 	void receive_();
+
 
 private:
 	ServerArgsPtr serverArgsPtr_;
 	boost::asio::io_service ioService_;
 	boost::asio::ip::udp::socket socket_;
 	boost::asio::ip::udp::endpoint senderEndpoint_;
-	char inboundHeader_[ Message::headerLength];
 	std::vector<char> inboundData_;
 	FileManager fileManager_;
 };
