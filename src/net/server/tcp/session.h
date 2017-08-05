@@ -12,7 +12,8 @@ public:
 	void start();
 
 private:
-	void read_();
+	void readHeader_();
+	void readBody_();
 
 private:
 	boost::asio::ip::tcp::socket socket_;

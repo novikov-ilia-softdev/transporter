@@ -11,11 +11,12 @@ Session::Session( boost::asio::ip::tcp::socket socket):
 
 void Session::start()
 {
-	read_();
+	readHeader_();
 }
 
-void Session::read_()
+void Session::readHeader_()
 {
+	std::cout << "read header..." << std::endl;
 	auto self( shared_from_this());
 	boost::asio::async_read(
 			socket_,
@@ -33,30 +34,37 @@ void Session::read_()
 					}
 
 					inboundData_.resize( inboundDataSize);
-					boost::asio::async_read(
-						socket_,
-						boost::asio::buffer( inboundData_),
-						[this, self]( boost::system::error_code ec, std::size_t length)
-						{
-							if( !ec)
-							{
-								try
-								{
-									std::string archiveData( &inboundData_[0], inboundData_.size());
-									std::istringstream archiveStream( archiveData);
-									boost::archive::text_iarchive archive( archiveStream);
-									File file;
-									archive >> file;
-									std::cout << "received file " << file.getName() << std::endl;
-									fileManager_.createFile( file);
-									socket_.close();
-								}
-								catch( std::exception& e)
-								{
-									std::cerr << "Exception: " << e.what() << "\n";
-								}
-							}
-						});
+					readBody_();
 				}
 			});
+}
+
+void Session::readBody_()
+{
+	std::cout << "read body..." << std::endl;
+	auto self( shared_from_this());
+	boost::asio::async_read(
+		socket_,
+		boost::asio::buffer( inboundData_),
+		[this, self]( boost::system::error_code ec, std::size_t length)
+		{
+			if( !ec)
+			{
+				try
+				{
+					std::string archiveData( &inboundData_[0], inboundData_.size());
+					std::istringstream archiveStream( archiveData);
+					boost::archive::text_iarchive archive( archiveStream);
+					File file;
+					archive >> file;
+					std::cout << "received file " << file.getName() << std::endl;
+					fileManager_.createFile( file);
+					socket_.close();
+				}
+				catch( std::exception& e)
+				{
+					std::cerr << "Exception: " << e.what() << "\n";
+				}
+			}
+		});
 }
