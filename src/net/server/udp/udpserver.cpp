@@ -27,7 +27,6 @@ void UDPServer::receive_()
 								senderEndpoint_,
 								[ this](boost::system::error_code error, std::size_t bytesRecvd)
 								{
-									std::cout << "callback" << std::endl;
 									if (!error && bytesRecvd > 0)
 									{
 										try
@@ -39,7 +38,6 @@ void UDPServer::receive_()
 											archive >> file;
 											std::cout << "received file " << file.getName() << std::endl;
 											fileManager_.createFile( file);
-											socket_.close();
 										}
 										catch( std::exception& e)
 										{
@@ -47,6 +45,6 @@ void UDPServer::receive_()
 										}
 									}
 
-									//receive_();
+									receive_();
 								});
 }
