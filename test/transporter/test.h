@@ -51,15 +51,6 @@ public:
 	}
 };
 
-/*
-TODO:
-1) short path
-2) system -> boost_process
-3) create file
-4) compare file
-5) delete file
-*/
-
 TEST_F( Test, tcp)
 {
 	Test::runTCPServer();
